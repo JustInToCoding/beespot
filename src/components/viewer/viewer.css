@@ -1,0 +1,38 @@
+.map-selector {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+  top: 10px;
+}
+
+.map-selector > * {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.time-range-selector {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 999;
+  bottom: 10px;
+}
+
+.sidebar {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  max-height: 320px;
+  height: 100%;
+  width: 320px;
+  padding: 10px 10px 10px 10px;
+  top: 190px;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.leaflet-map {
+  display: inline-block;
+}
