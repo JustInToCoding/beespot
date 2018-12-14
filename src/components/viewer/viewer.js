@@ -16,9 +16,8 @@ import L from "leaflet";
 window.L = L;
 import "leaflet-draw";
 import produce from "immer";
-import { MapSelector } from "../map-selector/map-selector";
-import { TimeRange } from "../time-range/time-range";
 import { Graph } from "../graph/graph";
+import "../../leaflet-mapbox-gl";
 
 const { BaseLayer, Overlay } = LayersControl;
 
@@ -71,6 +70,10 @@ class Viewer extends PureComponent {
     });
     map.addControl(drawControl);
     map.on(L.Draw.Event.CREATED, this.onShapeDrawnClosure(drawnItems));
+    L.mapboxGL({
+      accessToken: "no-token",
+      style: "style.json"
+    }).addTo(map);
   }
 
   onShapeDrawnClosure(drawnItems) {
@@ -87,7 +90,7 @@ class Viewer extends PureComponent {
           draft.selected = latLngs;
         })
       );
-      this.fetchData();
+      // this.fetchData();
       this.setState(
         produce(this.state, draft => {
           draft.showSideBar = true;
@@ -187,12 +190,6 @@ class Viewer extends PureComponent {
           undefined
         )}
 
-        <div className="map-selector">
-          <MapSelector onSelect={this.selectMap} />
-        </div>
-        <div className="time-range-selector">
-          <TimeRange />
-        </div>
         <Map
           center={position}
           zoom={this.state.zoom}
@@ -203,44 +200,14 @@ class Viewer extends PureComponent {
           onLocationfound={this.handleLocationFound}
           ref={this.mapRef}
         >
-          <LayersControl position="topright">
+          {/* <LayersControl position="topright">
             <BaseLayer checked name="OpenStreetMap">
               <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
             </BaseLayer>
-            <Overlay checked name="Images">
-              <WMSTileLayer
-                url={`https://wms.birdsai.co/${
-                  this.state.map.wmsName
-                }/wms/{time}/{layer}/{z}/{x}/{y}.png`}
-                tileSize={defaultMapParams.tileSize}
-                noWrap={defaultMapParams.noWrap}
-                maxZoom={defaultMapParams.maxZoom}
-                attribution={defaultMapParams.attribution}
-                map={this.state.map.wmsName}
-                time={this.state.timestampNumber}
-                layer="image"
-                format="image/png"
-              />
-            </Overlay>
-            <Overlay checked name="Classification">
-              <WMSTileLayer
-                url={`https://wms.birdsai.co/${
-                  this.state.map.wmsName
-                }/wms/{time}/{layer}/{z}/{x}/{y}.png`}
-                tileSize={defaultMapParams.tileSize}
-                noWrap={defaultMapParams.noWrap}
-                maxZoom={defaultMapParams.maxZoom}
-                attribution={defaultMapParams.attribution}
-                map={this.state.map.wmsName}
-                time={this.state.timestampNumber}
-                layer="label"
-                format="image/png"
-              />
-            </Overlay>
-          </LayersControl>
+          </LayersControl> */}
         </Map>
       </div>
     );
